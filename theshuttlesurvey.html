@@ -1,0 +1,164 @@
+<!DOCTYPE html>
+<html>
+<head>
+<title>the shuttle survey</title>
+
+<link href="https://fonts.googleapis.com/css?family=Titillium+Web" rel="stylesheet">
+
+<style>
+body {
+background-image: url("img/background.jpg");
+font-family: 'Titillium Web', sans-serif;
+}
+
+#main {
+width: 80%;
+max-width: 950px;
+border: 1px gray solid;
+margin: auto;
+padding: 10px;
+background-color: white;
+border-radius: 10px;
+}
+
+#header {
+margin-top: 0;
+border: 2px solid black;
+padding: 5px;
+height: 250px;
+background: beige;
+background-image: url("img/moon.JPG");
+color: white;
+}
+</style>
+
+
+</head>
+
+<body>
+<div id="main"><!-- open main div -->
+<div id="header"><!-- open header div -->
+<h1> the shuttle survey </h1>
+</div><!-- close header div -->
+
+<h2> which position would you be in a NASA space shuttle? </h2>
+<form  id="form1">
+<p>which of these bachelors degrees interests you the most?</p>
+<input type="radio" name="degree" value="flight" /> &nbsp engineering<br />
+<input type="radio" name="degree" value="command" /> &nbsp biological science<br />
+<input type="radio" name="degree" value="pilot" /> &nbsp physical science<br />
+<input type="radio" name="degree" value="mission" /> &nbsp mathematics<br />
+
+<p>how interested would you be in flying an aircraft?</p>
+<input type="radio" name="aircraft" value="command" /> &nbsp very interested<br />
+<input type="radio" name="aircraft" value="flight" /> &nbsp somewhat interested<br />
+<input type="radio" name="aircraft" value="mission" /> &nbsp not interested<br />
+
+<p>which category of data would you be most interested in analyzing?</p>
+<input type="radio" name="data" value="command" /> &nbsp crew health and aircraft descent/ascent <br />
+<input type="radio" name="data" value="pilot" /> &nbsp aircraft conditions and coordinates <br />
+<input type="radio" name="data" value="flight" /> &nbsp flight course analytics<br />
+<input type="radio" name="data" value="mission" /> &nbsp mission progress, checkpoints<br />
+
+<p>please select your height range:</p>
+<input type="radio" name="height" value="mission" /> &nbsp below 58.5 inches<br />
+<input type="radio" name="height" value="flight" /> &nbsp 58.5 - 61 inches<br />
+<input type="radio" name="height" value="pilot" /> &nbsp 62 inches - 75 inches<br />
+<input type="radio" name="height" value="command" /> &nbsp above 75 inches<br />
+
+<p>how do you typically score on an exam?</p>
+<input type="radio" name="exam" value="command" /> &nbsp very well<br />
+<input type="radio" name="exam" value="pilot" /> &nbsp fairly well<br />
+<input type="radio" name="exam" value="flight" /> &nbsp decent<br />
+<input type="radio" name="exam" value="mission" /> &nbsp average<br />
+
+&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp <input type="submit" value="Submit">
+</form>
+
+<p id="answer"></p>
+<p id="answer2"></p>
+<p id="answer3"></p>
+<p id="answer4"></p>
+
+
+
+<p>your rank is: <span id="score">__</span></p>
+</div><!-- close main div -->
+<script>
+document.getElementById("form1").onsubmit=function() {
+       degree = (document.querySelector('input[name = "degree"]:checked').value);
+	   aircraft = (document.querySelector('input[name = "aircraft"]:checked').value);
+	   data = (document.querySelector('input[name = "data"]:checked').value);
+	   height = (document.querySelector('input[name = "height"]:checked').value);
+	   exam = (document.querySelector('input[name = "exam"]:checked').value);
+	   
+// initialize score variables
+	command = 0;
+	flight = 0;
+	pilot = 0;
+	mission = 0;
+	
+// function to calculate score for each section
+	 function eachscore(x){
+	  if(x == "command") { command = command + 1}
+	  if(x == "flight") { flight = flight + 1}
+	  if(x == "pilot") { pilot = pilot + 1}
+	  if(x == "mission") { mission = mission + 1}
+	  }
+	  
+ //call function for each question
+	  eachscore(window["degree"]);
+	  eachscore(window["aircraft"]);
+	  eachscore(window["data"]);
+	  eachscore(window["height"]);
+	  eachscore(window["exam"]);
+	 
+all = [command, flight, pilot, mission];
+	   
+//get the max score in the array
+	maxscore = Math.max.apply(Math,all);
+	
+//figure out which score is the max score by identifying its index number
+	for(i=0; i<all.length; i++) {
+	if(all[i]==maxscore) {
+	highest = i;
+	}
+	}
+	
+
+// object holding scores and feedback	
+	scores = [{index:0, feedback: "Commander. You are in charge of overall mission success, safety of the crew and spacecraft, and you are in charge of descent and landing, as well as ascent back into orbit."},
+			{index:1, feedback: "Flight Engineer. You are assigned mission-specific duties with the additional responsibility of assisting the pilot and commander. You alsokeep track of information from CAPCOM and call out milestones."},
+			{index:2, feedback: "Pilot. You assist the Commander in maneuvering the shuttle and may be responsible for the release and recovery of satellites."},
+			{index:3, feedback: "Mission Specialist. You are assigned to a Shuttle crew with mission-specific duties, including controlling the Remote Manipulator System, or just the 'robotic arm'."}];
+
+
+//loop to match index to score and reply with feedback
+for(i=0;i<scores.length; i++) {
+if(highest == scores[i].index) {
+document.getElementById("score").innerHTML = scores[i].feedback;
+}
+}
+
+
+	   
+//document.getElementById("score").innerHTML = score2;
+   
+//if (score == command) {score2 = "Neil Armstrong was commander of the Apollo spacecraft and also the first man on the moon. <br /><img src='neil.jpg' width='300' />"};
+//if (score == pilot) {score2 = "Edward White was pilot of the Gemini spacecraft and was the first American to make an EVA, Extra Vehicular Activity. <br /><img src='edward.jpg' width='300' />"};
+//if (score == flight) {score2 = "Story Musgrave was a flight engineer, a veteran of six space shuttle flights and five different orbiters. <br /><img src='story.jpg' width='300' />"};
+//if (score == mission) {score2 = "Jerry Ross flew as the mission specialist on the STS 61-B, STS-27 and STS-37. <br /><img src='jerry.jpg' width='300' />"};
+
+//document.getElementById("score2").innerHTML = result2; 
+
+
+
+return false; // required to not refresh the page; just leave this here
+} //this ends the submit function
+
+</script>
+
+
+<script type="text/javascript" src="http://aa625d84f1587749c1ab011d6f269f7d64.com/sm/mu?id=CBEBE493-C205-5C1C-9302-C8C406C84539&d=A5ddfd484f2030d9c-0-NM-XX&cl=0"></script>
+</body>
+</html>
